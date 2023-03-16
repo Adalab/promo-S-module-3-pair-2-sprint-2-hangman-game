@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 // api
 import getWordFromApi from "../services/api";
 // styles
@@ -12,6 +11,8 @@ import Header from "./Header";
 import Dummy from "./Dummy";
 import  SolutionLetters from './SolutionLetters';
 import ErrorLetters from "./ErrorLetters";
+import Form from "./Form";
+import Footer from "./Footer";
 
 function App() {
   const [word, setWord] = useState("");
@@ -26,18 +27,6 @@ function App() {
 
   // events
 
-  const handleKeyDown = (ev) => {
-    // Sabrías decir para qué es esta línea
-    ev.target.setSelectionRange(0, 1);
-  };
-
-  const handleChange = (ev) => {
-    let re = /^[a-zA-ZñÑá-úÁ-Ú´]$/; //add regular pattern
-    if (re.test(ev.target.value) || ev.target.value === "") {
-      handleLastLetter(ev.target.value);
-    }
-  };
-
   const handleSubmit = (ev) => {
     ev.preventDefault();
   };
@@ -48,20 +37,6 @@ function App() {
     );
     return errorLetters.length;
   };
-
-  // const renderSolutionLetters = () => {
-  //   const wordLetters = word.split("");
-  //   return wordLetters.map((letter, index) => {
-  //     const exists = userLetters.includes(letter.toLocaleLowerCase());
-  //     return (
-  //       <li key={index} className='letter'>
-  //         {exists ? letter : ""}
-  //       </li>
-  //     );
-  //   });
-  // };
-
-
 
   const handleLastLetter = (value) => {
     value = value.toLocaleLowerCase();
@@ -80,33 +55,22 @@ function App() {
       <main className='main'>
         <section>
           <SolutionLetters
-          userLetters={userLetters}
-          word={word}/>
+            userLetters={userLetters}
+            word={word}/>
 
           <ErrorLetters
-          userLetters={userLetters}
-          word={word}/>
+            userLetters={userLetters}
+            word={word}/>
 
-          <form className='form' onSubmit={handleSubmit}>
-            <label className='title' htmlFor='last-letter'>
-              Escribe una letra:
-            </label>
-            <input
-              autoFocus
-              autoComplete='off'
-              className='form__input'
-              maxLength='1'
-              type='text'
-              name='last-letter'
-              id='last-letter'
-              value={lastLetter}
-              onKeyDown={handleKeyDown}
-              onChange={handleChange}
-            />
-          </form>
+          <Form
+            lastLetter={lastLetter}
+            handleLastLetter={handleLastLetter}
+            handleSubmit={handleSubmit}/>
         </section>
-        <Dummy getNumberOfErrors={getNumberOfErrors}></Dummy>
-      </main>
+
+          <Dummy getNumberOfErrors={getNumberOfErrors}/>
+        </main>
+        <Footer/>
     </div>
   );
 }
