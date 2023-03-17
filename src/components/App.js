@@ -9,10 +9,14 @@ import "../styles/Form.scss";
 import "../styles/Header.scss";
 import Header from "./Header";
 import Dummy from "./Dummy";
-import  SolutionLetters from './SolutionLetters';
+import SolutionLetters from './SolutionLetters';
 import ErrorLetters from "./ErrorLetters";
 import Form from "./Form";
 import Footer from "./Footer";
+import Instructions from "./Instructions";
+import Options from "./Options";
+import { Routes, Route } from "react-router-dom";
+
 
 function App() {
   const [word, setWord] = useState("");
@@ -53,22 +57,19 @@ function App() {
       <Header title='juego del ahorcado'></Header>
 
       <main className='main'>
-        <section>
-          <SolutionLetters
-            userLetters={userLetters}
-            word={word}/>
 
-          <ErrorLetters
-            userLetters={userLetters}
-            word={word}/>
+        <Routes>
+          <Route path='/'
+            element={<>
+              <ErrorLetters  userLetters={userLetters} word={word}/>
+              <SolutionLetters  userLetters={userLetters}word={word}/>
+              <Form lastLetter={lastLetter} handleLastLetter={handleLastLetter} handleSubmit={handleSubmit}/></>}>
+          </Route>
+          <Route path="/instructions" element={<Instructions/>}></Route>
+          <Route path="/options" element={<Options/>}></Route>
+        </Routes>
 
-          <Form
-            lastLetter={lastLetter}
-            handleLastLetter={handleLastLetter}
-            handleSubmit={handleSubmit}/>
-        </section>
-
-          <Dummy getNumberOfErrors={getNumberOfErrors}/>
+        <Dummy getNumberOfErrors={getNumberOfErrors}/>
         </main>
         <Footer/>
     </div>
